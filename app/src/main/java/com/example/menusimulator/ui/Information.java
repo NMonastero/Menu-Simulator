@@ -5,15 +5,15 @@ import java.util.Random;
 public class Information {
     //to keep track of all of this better later, these arrays might work better in a matrix
     final int bhp, batt, bdef, bsatt, bsdef, bprio;
-    final int[] atti, defi, satti, sdefi, prioi;
+    final int atti, defi, satti, sdefi, prioi;
     final int mhp, matt, mdef, msatt, msdef, mprio;
     int hp, att, def, satt, sdef, prio;
     int[] moves = new int[3];
     int item;
 
     //this can probably condensed into an array later but for now it's easier to visualize spread out
-    Information(int h, int a, int d, int sa, int sd, int p,
-                int[] ai, int di[], int sai[], int sdi[], int pi[],
+    public Information(int h, int a, int d, int sa, int sd, int p,
+                int ai, int di, int sai, int sdi, int pi,
                 int mh, int ma, int md, int msa, int msd, int mp){
         bhp = h;
         batt = a;
@@ -40,11 +40,12 @@ public class Information {
     //additionally, it might make the game more dynamic to make these changes dynamic like fire emblem lvlups
     public void statInc(){
         //hp probably won't change upon level up so it shouldn't change here
-        att += atti[((int)(Math.random() * 9))];
-        def += defi[((int)(Math.random() * 9))];
-        satt += satti[((int)(Math.random() * 9))];
-        sdef += sdefi[((int)(Math.random() * 9))];
-        prio += prioi[((int)(Math.random() * 9))];
+        //new formula = ########## / 10^(Math.random() * 9) % 10
+        att += atti / (Math.pow(10, (int)(Math.random() * 9))) % 10;
+        def += defi / (Math.pow(10, (int)(Math.random() * 9))) % 10;
+        satt += satti / (Math.pow(10, (int)(Math.random() * 9))) % 10;
+        sdef += sdefi / (Math.pow(10, (int)(Math.random() * 9))) % 10;
+        prio += prioi / (Math.pow(10, (int)(Math.random() * 9))) % 10;
     }
 
     public int[] maxInc(int lvl){
