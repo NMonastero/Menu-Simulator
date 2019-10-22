@@ -2,6 +2,7 @@ package com.example.menusimulator.ui;
 
 import java.util.Random;
 
+//still needs image functions
 public class Information {
     //to keep track of all of this better later, these arrays might work better in a matrix
     final int bhp, batt, bdef, bsatt, bsdef, bprio;
@@ -10,11 +11,18 @@ public class Information {
     int hp, att, def, satt, sdef, prio;
     int[] moves = new int[3];
     int item;
+    int type1;
+    int type2;
+    String name;
+    //image backSprite, frontSprite, menuSprite;
 
     //this can probably condensed into an array later but for now it's easier to visualize spread out
-    public Information(int h, int a, int d, int sa, int sd, int p,
+    public Information(String n, int h, int a, int d, int sa, int sd, int p,
                 int ai, int di, int sai, int sdi, int pi,
-                int mh, int ma, int md, int msa, int msd, int mp){
+                int mh, int ma, int md, int msa, int msd, int mp,
+                int t1, int t2){
+        name = n;
+
         bhp = h;
         batt = a;
         bdef = d;
@@ -34,6 +42,9 @@ public class Information {
         msatt = msa;
         msdef = msd;
         mprio = mp;
+
+        type1 = t1;
+        type2 = t2;
     }
 
     //these increases should be determined in class, not by a method call
@@ -52,11 +63,24 @@ public class Information {
         //only size 5 because hp wont increase from lvlup
         int a[] = new int[5];
         for(int i = 0; i <= lvl; i++) {
-            a[0] += atti[9];
-            a[1] += defi[9];
-            a[2] += satti[9];
-            a[3] += sdefi[9];
-            a[4] += prioi[9];
+            a[0] += atti/1000000000%10;
+            a[1] += defi/1000000000%10;
+            a[2] += satti/1000000000%10;
+            a[3] += sdefi/1000000000%10;
+            a[4] += prioi/1000000000%10;
+        }
+
+        return a;
+    }
+
+    public int[] minInc(int lvl){
+        int a[] = new int[5];
+        for(int i = 0; i <= lvl; i++) {
+            a[0] += atti%10;
+            a[1] += defi%10;
+            a[2] += satti%10;
+            a[3] += sdefi%10;
+            a[4] += prioi%10;
         }
 
         return a;
@@ -114,6 +138,10 @@ public class Information {
 
     public int getItem(){
         return item;
+    }
+
+    public void setName(String newName) {
+        name = newName;
     }
 
     //this should send information about the base goon to the next in line
