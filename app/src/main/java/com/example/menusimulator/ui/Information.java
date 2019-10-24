@@ -13,7 +13,7 @@ public class Information {
     int item;
     int type1;
     int type2;
-    String name;
+    public String name;
     //image backSprite, frontSprite, menuSprite;
 
     //this can probably condensed into an array later but for now it's easier to visualize spread out

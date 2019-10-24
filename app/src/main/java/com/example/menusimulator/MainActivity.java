@@ -22,47 +22,47 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
 public class MainActivity extends AppCompatActivity {
+    Menu menu;
 
     //still needs image variables and description string
     //it might be easier to consolidate these variables later but for now don't worry about it
-    Information green = new Information("Green",0,0,0,0,0,
+    public Information green = new Information("Green",0,0,0,0,0,
             0,0,0,0,0,
             0,0,0,0,0,0,0, 0,0);
 
-    Information red = new Information("Red",0,0,0,0,0,
+    public Information red = new Information("Red",0,0,0,0,0,
             0,0,0,0,0,
             0,0,0,0,0,0,0, 0, 0);
 
-    Information blue = new Information("Blue",0,0,0,0,0,
+    public Information blue = new Information("Blue",0,0,0,0,0,
             0,0,0,0,0,
             0,0,0,0,0,0,0, 0, 0);
+
+    static Information goonDex[] = new Information[3];
+
+    public static Information getDexEntry(int i){
+        return goonDex[i];
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Information goonDex[] = new Information[3];
+        //Information goonDex[] = new Information[3];
         goonDex[0] = green;
         goonDex[1] = red;
         goonDex[2] = blue;
 
-//        BottomNavigationView navView = findViewById(R.id.nav_view);
-//        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.info, R.id.stats, R.id.moves)
-//                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//        NavigationUI.setupWithNavController(navView, navController);
-//        final fragment info =findViewById(R.id.info);
+        menu = new Menu(this);
+        setContentView(menu);
     }
 
     class Menu extends SurfaceView implements Runnable {
         Thread gameThread = null;
         SurfaceHolder ourHolder;
-        volatile boolean playing;
+        volatile boolean playing = true;
         boolean paused = false;
         boolean bump = false;
         Canvas canvas;
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
         public void draw() {
             if (ourHolder.getSurface().isValid()) {
                 // Lock the canvas ready to draw
@@ -123,9 +124,11 @@ public class MainActivity extends AppCompatActivity {
                 canvas.drawColor(Color.argb(255, 26, 80, 182));
 
                 if (state == 1) {
+                    paint.setColor(Color.argb(255, 255, 255, 255));
+                    canvas.drawText(MainActivity.getDexEntry(0).name, 100, 100, paint);
                 }
 
-                if (state == 2) {
+                else if (state == 2) {
                 }
 
                 ourHolder.unlockCanvasAndPost(canvas);
@@ -161,10 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 if (state == 2) {
 
                 }
-                bump = !bump;
             }
-            if (motionEvent.getAction() == android.view.MotionEvent.ACTION_UP)
-                bump = !bump;
+
             return true;
         }
 
