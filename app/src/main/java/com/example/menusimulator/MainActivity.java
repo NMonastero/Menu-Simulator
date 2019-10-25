@@ -22,6 +22,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import static android.graphics.Color.BLUE;
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+
 
 public class MainActivity extends AppCompatActivity {
     Menu menu;
@@ -75,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
         int dx, dy;
         int height, width;
         int state = 1;
-        //boulder[] b;
-        //paddle p;
-
+        int page = 0;
+        int viewedGoon;
 
         private long thisTimeFrame;
         public Menu(Context context) {
@@ -90,34 +93,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             Random r = new Random();
-
-//            p = new paddle();
-//            p.x =500;
-//            p.y = 1250;
-//            p.dx = 50;
-//            p.dy = 0;
-//
-//            b = new boulder[1];
-//
-//            b[0] = new boulder();
-////            b[0].x = r.nextInt(150)-50;
-////            b[0].y = r.nextInt(150)-50;
-////            b[0].dx = r.nextInt(150)-50;
-////            b[0].dy = r.nextInt(150)-50;
-//            b[0].x = 100;
-//            b[0].y = 80;
-//            b[0].dx = 50;
-//            b[0].dy = 45;
-//            b[0].diameter = 95;
-//            for (int i = 0; i < 1; ++i) {
-//                b[i] = new boulder();
-//                b[i].x = r.nextInt(50);
-//                b[i].y = r.nextInt(50);
-//                b[i].dx = r.nextInt(30) - 15;
-//                b[i].dy = r.nextInt(30) - 15;
-//                b[i].diameter = 95;
-//            }
-
 
             while (playing)
             {
@@ -179,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         public void draw() {
+            //The image representing each goon will be defined in Information so the circles drawn here are temporary
             if (ourHolder.getSurface().isValid()) {
                 // Lock the canvas ready to draw
                 canvas = ourHolder.lockCanvas();
@@ -187,13 +163,45 @@ public class MainActivity extends AppCompatActivity {
                 height = canvas.getHeight();
 
                 // Draw the background color
-                canvas.drawColor(Color.argb(255, 26, 80, 182));
+                canvas.drawColor(Color.argb(255, 80, 30, 30));
 
                 // Choose the brush color for drawing
                 if(state == 1) {
-                    paint.setTextSize(400);
+                    paint.setColor(GREEN);
+                    canvas.drawCircle(400, 220, 100, paint);
+
+                    paint.setColor(RED);
+                    canvas.drawCircle(400, 720, 100, paint);
+
+                    paint.setColor(BLUE);
+                    canvas.drawCircle(400, 1220, 100, paint);
+
+                    paint.setTextSize(100);
                     paint.setColor(Color.argb(255, 255, 255, 255));
-                    canvas.drawText(MainActivity.goonDex[0].name, 500, 300, paint);
+                    canvas.drawText(MainActivity.goonDex[page].name, 400, 350, paint);
+                    canvas.drawText(MainActivity.goonDex[page+1].name, 400, 850, paint);
+                    canvas.drawText(MainActivity.goonDex[page+2].name, 400, 1350, paint);
+
+                    paint.setColor(Color.argb(255, 0,0,0));
+                    canvas.drawRect(0,490,1500, 510, paint);
+                    canvas.drawRect(0,990,1500, 1010, paint);
+                }
+
+                if(state == 2){
+                    int[] stats = MainActivity.goonDex[viewedGoon].getBaseStats();
+                    paint.setColor(Color.argb(255, 0,0,0));
+                    canvas.drawRect(150, 200, 400, 400, paint);
+                    paint.setTextSize(75);
+                    paint.setColor(Color.argb(255, 255, 255, 255));
+                    canvas.drawText(MainActivity.goonDex[viewedGoon].name, 150, 150, paint);
+
+                    paint.setTextSize(50);
+                    canvas.drawText("HEALTH: " + stats[0], 600, 150, paint);
+                    canvas.drawText("C-ATT: " + stats[1], 600, 210, paint);
+                    canvas.drawText("C-DEF: " + stats[2], 600, 270, paint);
+                    canvas.drawText("F-ATT: " + stats[3], 600, 330, paint);
+                    canvas.drawText("F-DEF: " + stats[4], 600, 390, paint);
+                    canvas.drawText("PRIO: " + stats[5], 600, 450, paint);
                 }
 
                 ourHolder.unlockCanvasAndPost(canvas);
@@ -220,21 +228,22 @@ public class MainActivity extends AppCompatActivity {
         public boolean onTouchEvent(MotionEvent motionEvent){
             int x = (int)motionEvent.getX();
             int y = (int)motionEvent.getY();
-//            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-//                if(x < 500 && p.dx > 0 || x >= 500 && p.dx < 0){
-//                    p.dx = -p.dx;
-//                }
-//                bump = !bump;
-//            }
-//            if(paused){
-//                if(x <= 800 && x >= 350 && y >= 650 && y <= 700) {
-//                    score = 0;
-//                    b[0].x = 100;
-//                    b[0].y = 80;
-//                    b[0].dx = 50;
-//                    paused = !paused;
-//                }
-//            }
+            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                if(y <= 500){
+                    state = 2;
+                    viewedGoon = page;
+                }
+
+                else if(y > 500 && y <= 1000){
+                    state = 2;
+                    viewedGoon = page + 1;
+                }
+
+                else if(y > 1000 && y <= 1500){
+                    state = 2;
+                    viewedGoon = page + 2;
+                }
+            }
             if(motionEvent.getAction() == android.view.MotionEvent.ACTION_UP)
                 bump = !bump;
             return true;

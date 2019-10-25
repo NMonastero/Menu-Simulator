@@ -86,6 +86,18 @@ public class Information {
         return a;
     }
 
+    public int[] getBaseStats(){
+        int[] stats = new int[6];
+        stats[0] = bhp;
+        stats[1] = batt;
+        stats[2] = bdef;
+        stats[3] = bsatt;
+        stats[4] = bsdef;
+        stats[5] = bprio;
+
+        return stats;
+    }
+
     public int[] getStats(){
         int[] stats = new int[6];
         stats[0] = hp;
