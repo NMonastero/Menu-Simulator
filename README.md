@@ -7,3 +7,4 @@ Multiple pages for all of your menu needs
 10/23: Begining work on the canvas. (2) The canvas is having problems loading and I am very tired so I'll figure it out tomorrow
 10/24: The canvas is now fully funtional! On to the fun part of finishing the menu
 10/25: Added Second Page
+10/27: The informaton about stats now has a functional menu. Up next are moves 
