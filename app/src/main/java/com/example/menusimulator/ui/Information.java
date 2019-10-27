@@ -6,7 +6,7 @@ import java.util.Random;
 public class Information {
     //to keep track of all of this better later, these arrays might work better in a matrix
     final int bhp, batt, bdef, bsatt, bsdef, bprio;
-    final int atti, defi, satti, sdefi, prioi;
+    final long atti, defi, satti, sdefi, prioi;
     final int mhp, matt, mdef, msatt, msdef, mprio;
     int hp, att, def, satt, sdef, prio;
     int[] moves = new int[3];
@@ -18,7 +18,7 @@ public class Information {
 
     //this can probably condensed into an array later but for now it's easier to visualize spread out
     public Information(String n, int h, int a, int d, int sa, int sd, int p,
-                int ai, int di, int sai, int sdi, int pi,
+                long ai, long di, long sai, long sdi, long pi,
                 int mh, int ma, int md, int msa, int msd, int mp,
                 int t1, int t2){
         name = n;
@@ -52,30 +52,30 @@ public class Information {
     public void statInc(){
         //hp probably won't change upon level up so it shouldn't change here
         //new formula = ########## / 10^(Math.random() * 9) % 10
-        att += atti / (Math.pow(10, (int)(Math.random() * 9))) % 10;
-        def += defi / (Math.pow(10, (int)(Math.random() * 9))) % 10;
-        satt += satti / (Math.pow(10, (int)(Math.random() * 9))) % 10;
-        sdef += sdefi / (Math.pow(10, (int)(Math.random() * 9))) % 10;
-        prio += prioi / (Math.pow(10, (int)(Math.random() * 9))) % 10;
+        att += atti / (Math.pow(10, (int)(Math.random() * 8))) % 10;
+        def += defi / (Math.pow(10, (int)(Math.random() * 8))) % 10;
+        satt += satti / (Math.pow(10, (int)(Math.random() * 8))) % 10;
+        sdef += sdefi / (Math.pow(10, (int)(Math.random() * 8))) % 10;
+        prio += prioi / (Math.pow(10, (int)(Math.random() * 8))) % 10;
     }
 
     public int[] maxInc(int lvl){
         //only size 5 because hp wont increase from lvlup
-        int a[] = new int[5];
-        for(int i = 0; i <= lvl; i++) {
-            a[0] += atti/1000000000%10;
-            a[1] += defi/1000000000%10;
-            a[2] += satti/1000000000%10;
-            a[3] += sdefi/1000000000%10;
-            a[4] += prioi/1000000000%10;
+        int a[] = {batt, bdef, bsatt, bsdef, bprio};
+        for(int i = 1; i < lvl; i++) {
+            a[0] += atti/100000000%10;
+            a[1] += defi/100000000%10;
+            a[2] += satti/100000000%10;
+            a[3] += sdefi/100000000%10;
+            a[4] += prioi/100000000%10;
         }
 
         return a;
     }
 
     public int[] minInc(int lvl){
-        int a[] = new int[5];
-        for(int i = 0; i <= lvl; i++) {
+        int a[] = {batt, bdef, bsatt, bsdef, bprio};
+        for(int i = 1; i < lvl; i++) {
             a[0] += atti%10;
             a[1] += defi%10;
             a[2] += satti%10;
@@ -84,6 +84,20 @@ public class Information {
         }
 
         return a;
+    }
+
+    public int[] avgInc(int lvl){
+        double a[] = {batt, bdef, bsatt, bsdef, bprio};
+        for(int i = 1; i < lvl; i++) {
+            a[0] += atti/(Math.pow(10, i))%10;
+            a[1] += defi/( Math.pow(10, i))%10;
+            a[2] += satti/(Math.pow(10, i))%10;
+            a[3] += sdefi/(Math.pow(10, i))%10;
+            a[4] += prioi/(Math.pow(10, i))%10;
+        }
+        int b[] = {(int) a[0], (int) a[1], (int) a[2], (int) a[3], (int) a[4]};
+
+        return b;
     }
 
     public int[] getBaseStats(){
