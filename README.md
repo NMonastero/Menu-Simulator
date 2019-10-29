@@ -8,3 +8,12 @@ Multiple pages for all of your menu needs
 10/24: The canvas is now fully funtional! On to the fun part of finishing the menu
 10/25: Added Second Page
 10/27: The informaton about stats now has a functional menu. Up next are moves 
+10/28: Goons now have a typing. For now I think that is all
+
+~~~~~~~~~
+PLEASE READ!!!!
+~~~~~~~~~
+On the surface this project doesn't look that impressive. If you wanted to recreate these screenshots 
+it probably wouldn't be too difficult. Most of the time spent on this project was on the background structure that 
+allows for the addition of new pages and goons (without much more implementation). There might be only three now, 
+but you could add thousands if you wanted to with ease.
