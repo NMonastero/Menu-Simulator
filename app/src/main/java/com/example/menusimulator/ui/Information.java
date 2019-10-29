@@ -2,6 +2,8 @@ package com.example.menusimulator.ui;
 
 import java.util.Random;
 
+import static java.sql.Types.NULL;
+
 //still needs image functions
 public class Information {
     //to keep track of all of this better later, these arrays might work better in a matrix
@@ -134,6 +136,18 @@ public class Information {
         metaStats[5] += mprio;
 
         return metaStats;
+    }
+
+    public int getType1(){
+        return type1;
+    }
+
+    public int getType2(){
+//        if(type2 < 20){
+//            return type2;
+//        }
+//        return NULL;
+        return type2;
     }
 
     //this might actually need to be a constructor

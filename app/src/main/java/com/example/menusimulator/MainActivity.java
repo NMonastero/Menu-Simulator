@@ -3,6 +3,7 @@ package com.example.menusimulator;
 import android.os.Bundle;
 
 import com.example.menusimulator.ui.Information;
+import com.example.menusimulator.ui.types;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import androidx.navigation.ui.NavigationUI;
 import static android.graphics.Color.BLUE;
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
+import static java.sql.Types.NULL;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,17 +37,33 @@ public class MainActivity extends AppCompatActivity {
     //it might be easier to consolidate these variables later but for now don't worry about it
     public Information green = new Information("Green",100,5,4,5,6, 5,
             222222111, 222111111,222222111,332222211, 222222111,
-            0,3,5,4,5,2, 0,0);
+            0,3,5,4,5,2, 1,20);
 
     public Information red = new Information("Red",100,6,4,5,4, 6,
             332222211,222111111,222222111,222111111, 332222211,
-            0,0,0,0,0,0, 0, 0);
+            0,0,0,0,0,0, 2, 20);
 
     public Information blue = new Information("Blue",100,4,6,5,6, 4,
             222111111,332222211,222222111,332222211, 222111111,
-            0,0,0,0,0,0, 0, 0);
+            0,0,0,0,0,0, 3,  20);
 
     static Information goonDex[] = new Information[3];
+
+    int[] neutE = {};
+    int[] neutI ={};
+    int[] plantE = {3, 6};
+    int[] plantI = {1, 2, 11};
+    int[] heatE = {1, 5, 8, 12};
+    int[] heatI = {2, 3, 6, 11};
+    int[] waterE = {2, 6, 8, 13};
+    int[] waterI = {1, 3, 5, 7, 11};
+
+    public types neutral = new types(Color.argb(255, 153, 153, 153), "Neutral", neutE, neutI);
+    public types plant = new types(Color.argb(255, 92, 214, 92), "Plant", plantE, plantI);
+    public types heat = new types(Color.argb(255, 255, 92, 51), "Heat", heatE, heatI);
+    public types water = new types(Color.argb(255, 51, 102, 255), "Water", waterE, waterI);
+
+    static types t[] = new types[4];
 
     public static Information getDexEntry(int i){
         return goonDex[i];
@@ -59,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
         goonDex[0] = green;
         goonDex[1] = red;
         goonDex[2] = blue;
+
+        t[0] = neutral;
+        t[1] = plant;
+        t[2] = heat;
+        t[3] = water;
 
         menu = new Menu(this);
         setContentView(menu);
@@ -170,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
 
                     paint.setColor(Color.argb(255, 0,0,0));
                     canvas.drawRect(150, 200, 400, 400, paint);
-                    canvas.drawRect(0, 1400, 1250, 1600, paint);
 
                     canvas.drawRect(50, 920, 130, 1020, paint);
                     canvas.drawRect(150, 920, 230, 1020, paint);
@@ -182,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawRect(750, 920, 830, 1020, paint);
                     canvas.drawRect(850, 920, 930, 1020, paint);
                     canvas.drawRect(950, 920, 1030, 1020, paint);
+
+                    paint.setColor(RED);
+                    canvas.drawRect(0, 1400, 1250, 1600, paint);
 
                     paint.setTextSize(75);
                     paint.setColor(Color.argb(255, 255, 255, 255));
@@ -199,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawText("10", 950, 970, paint);
 
                     paint.setTextSize(50);
+                    canvas.drawText("Level: " + (lvl + 1), 50, 500, paint);
+
                     canvas.drawText("HEALTH: " + stats[0], 600, 150, paint);
                     canvas.drawText("C-ATT: " + stats[1], 600, 210, paint);
                     canvas.drawText("C-DEF: " + stats[2], 600, 270, paint);
@@ -226,6 +253,19 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawText(" F-ATT: " + minStats[lvl][2], 750, 740, paint);
                     canvas.drawText(" F-DEF: " + minStats[lvl][3], 750, 800, paint);
                     canvas.drawText("  PRIO: " + minStats[lvl][4], 750, 860, paint);
+
+                    paint.setTextSize(150);
+                    paint.setColor(t[MainActivity.goonDex[viewedGoon].getType1()].getColor());
+                    canvas.drawRect(40, 1100, 550, 1350, paint);
+                    paint.setColor(Color.argb(255, 0, 0, 0));
+                    canvas.drawText(t[MainActivity.goonDex[viewedGoon].getType1()].getName(), 60, 1250, paint);
+
+                    if(MainActivity.goonDex[viewedGoon].getType2() != 20){
+                        paint.setColor(t[MainActivity.goonDex[viewedGoon].getType2()].getColor());
+                        canvas.drawRect(580, 1100, 1100, 1350, paint);
+                        paint.setColor(Color.argb(255, 0, 0, 0));
+                        canvas.drawText(t[MainActivity.goonDex[viewedGoon].getType2()].getName(), 600, 1250, paint);
+                    }
                 }
 
                 ourHolder.unlockCanvasAndPost(canvas);
