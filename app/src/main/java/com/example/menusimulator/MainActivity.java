@@ -47,7 +47,19 @@ public class MainActivity extends AppCompatActivity {
             222111111,332222211,222222111,332222211, 222111111,
             0,0,0,0,0,0, 3,  20);
 
-    static Information goonDex[] = new Information[3];
+    public Information purple = new Information("Purple",100,4,6,5,6, 4,
+            222111111,332222211,222222111,332222211, 222111111,
+            0,0,0,0,0,0, 5,  20);
+
+    public Information orange = new Information("Orange",100,4,6,5,6, 4,
+            222111111,332222211,222222111,332222211, 222111111,
+            0,0,0,0,0,0, 6,  20);
+
+    public Information yellow = new Information("Yellow",100,4,6,5,6, 4,
+            222111111,332222211,222222111,332222211, 222111111,
+            0,0,0,0,0,0, 4,  20);
+
+    static Information goonDex[] = new Information[6];
 
     int[] neutE = {};
     int[] neutI ={};
@@ -57,13 +69,22 @@ public class MainActivity extends AppCompatActivity {
     int[] heatI = {2, 3, 6, 11};
     int[] waterE = {2, 6, 8, 13};
     int[] waterI = {1, 3, 5, 7, 11};
+    int[] elecE = {3, 7, 10, 11, 12};
+    int[] elecI = {1, 4, 6};
+    int[] toxE = {10, 11};
+    int[] toxI = {3, 6, 8, 9};
+    int[] explE = {5, 6, 13};
+    int[] explI = {2, 3};
 
     public types neutral = new types(Color.argb(255, 153, 153, 153), "Neutral", neutE, neutI);
     public types plant = new types(Color.argb(255, 92, 214, 92), "Plant", plantE, plantI);
     public types heat = new types(Color.argb(255, 255, 92, 51), "Heat", heatE, heatI);
     public types water = new types(Color.argb(255, 51, 102, 255), "Water", waterE, waterI);
+    public types electric = new types(Color.argb(255, 255, 255, 51), "Electric", elecE, elecI);
+    public types toxin = new types(Color.argb(255, 133, 51, 255), "Toxin", toxE, toxI);
+    public types explosive = new types(Color.argb(255, 255, 153, 51), "Explosive", explE, explI);
 
-    static types t[] = new types[4];
+    static types t[] = new types[7];
 
     public static Information getDexEntry(int i){
         return goonDex[i];
@@ -77,11 +98,17 @@ public class MainActivity extends AppCompatActivity {
         goonDex[0] = green;
         goonDex[1] = red;
         goonDex[2] = blue;
+        goonDex[3] = purple;
+        goonDex[4] = orange;
+        goonDex[5] = yellow;
 
         t[0] = neutral;
         t[1] = plant;
         t[2] = heat;
         t[3] = water;
+        t[4] = electric;
+        t[5] = toxin;
+        t[6] = explosive;
 
         menu = new Menu(this);
         setContentView(menu);
@@ -148,13 +175,13 @@ public class MainActivity extends AppCompatActivity {
 
                 // Choose the brush color for drawing
                 if(state == 1) {
-                    paint.setColor(GREEN);
+                    paint.setColor(t[MainActivity.goonDex[page].getType1()].getColor());
                     canvas.drawCircle(400, 220, 100, paint);
 
-                    paint.setColor(RED);
+                    paint.setColor(t[MainActivity.goonDex[page+1].getType1()].getColor());
                     canvas.drawCircle(400, 720, 100, paint);
 
-                    paint.setColor(BLUE);
+                    paint.setColor(t[MainActivity.goonDex[page+2].getType1()].getColor());
                     canvas.drawCircle(400, 1220, 100, paint);
 
                     paint.setTextSize(100);
@@ -166,6 +193,12 @@ public class MainActivity extends AppCompatActivity {
                     paint.setColor(Color.argb(255, 0,0,0));
                     canvas.drawRect(0,490,1500, 510, paint);
                     canvas.drawRect(0,990,1500, 1010, paint);
+
+                    if(page != 0)
+                        canvas.drawRect(0, 1400, 610, 1600, paint);
+
+                    if(page != 3)
+                    canvas.drawRect(640, 1400, 1250, 1600, paint);
                 }
 
                 if(state == 2){
@@ -300,9 +333,17 @@ public class MainActivity extends AppCompatActivity {
                     } else if (y > 500 && y <= 1000) {
                         state = 2;
                         viewedGoon = page + 1;
-                    } else if (y > 1000 && y <= 1500) {
+                    } else if (y > 1000 && y <= 1400) {
                         state = 2;
                         viewedGoon = page + 2;
+                    }
+                    else if(y > 1400){
+                        if(x<=610 && page != 0){
+                            page-=3;
+                        }
+                        else if(x >= 640 && page !=3){
+                            page+=3;
+                        }
                     }
                 }
                 else if(state == 2){
