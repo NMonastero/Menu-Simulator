@@ -9,6 +9,7 @@ Multiple pages for all of your menu needs
 10/25: Added Second Page
 10/27: The informaton about stats now has a functional menu. Up next are moves 
 10/28: Goons now have a typing. For now I think that is all
+10/30: Update 1.1 Added functionality for more goons to be added
 
 ~~~~~~~~~
 PLEASE READ!!!!
